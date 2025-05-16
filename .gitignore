@@ -18,6 +18,7 @@ Assets/Plugins/Editor/JetBrains*
 Assets/AssetStoreTools*
 # Unity local user project setting
 UserSettings/
+Logs/
 
 # Visual Studio cache directory
 .vs/
