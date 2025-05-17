@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InteractionPromptUI : MonoBehaviour
 {
-    [SerializeField] private GameObject uiPanel;
     private Camera mainCamera;
+    [SerializeField] private GameObject uiPanel;
     [SerializeField] TextMeshProUGUI promptText;
 
     private void Start()
@@ -25,8 +25,8 @@ public class InteractionPromptUI : MonoBehaviour
     public void SetUp(string text)
     {
         promptText.text = text;
-        uiPanel.SetActive(true);
         isDisplayed = true;
+        uiPanel.SetActive(true);
     }
 
     public void Close()

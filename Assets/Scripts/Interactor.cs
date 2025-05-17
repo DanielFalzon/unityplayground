@@ -10,7 +10,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] private LayerMask interactableMask;
     [SerializeField] private InteractionPromptUI interactionPromptUI;
     
-    private IInteractable interactable;
+    private IInteractable _interactable;
     
     //How many things we search for in the radius
     private readonly Collider[] _colliders = new Collider[3];
@@ -23,19 +23,18 @@ public class Interactor : MonoBehaviour
         if (_numFound > 0)
         { 
             
-            interactable = _colliders[0].GetComponent<IInteractable>();
-            if (interactable is not null)
+            _interactable = _colliders[0].GetComponent<IInteractable>();
+            
+            if (_interactable is not null)
             {
-                if(!interactionPromptUI.isDisplayed) interactionPromptUI.SetUp(interactable.InteractionPrompt);
+                if(!interactionPromptUI.isDisplayed) interactionPromptUI.SetUp(_interactable.InteractionPrompt);
 
-                if (Keyboard.current.eKey.wasPressedThisFrame) interactable.Interact(this);
-                
-                interactable.Interact(this);
+                if (Keyboard.current.eKey.wasPressedThisFrame) _interactable.Interact(this);
             }
         }
         else
         {
-            if(interactable != null ) interactable = null;
+            if(_interactable != null ) _interactable = null;
             if(interactionPromptUI.isDisplayed) interactionPromptUI.Close();
         }
     }
