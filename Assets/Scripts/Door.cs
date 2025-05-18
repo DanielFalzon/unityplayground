@@ -4,39 +4,26 @@ using UnityEngine.Serialization;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string prompt;
-    private Animator doorAnimator;
-    private bool isOpen;
-    [SerializeField] private string animationTrigger; 
     
-    public string InteractionPrompt => prompt;
+    [SerializeField] private string openDoorTrigger; 
+    [SerializeField] private string closeDoorTrigger; 
+    [SerializeField] private Animator animator;
+    private string _prompt;
+    
+    private bool _isOpen;
+    
+    public string InteractionPrompt => _prompt;
     
     private void Start()
     {
-        // Get the Animator component from the parent GameObject
-        doorAnimator = GetComponentInParent<Animator>();
-        isOpen = false;
-        prompt = "Open Door";
+        _isOpen = false;
+        _prompt = "Open Door";
 
         // Ensure an Animator component exists on the parent
-        if (doorAnimator == null)
+        if (animator == null)
         {
             Debug.LogError($"Animator component not found on the parent of {gameObject.name}");
             enabled = false; // Disable the Door script if no Animator is found
-        }
-    }
-
-    private void Update()
-    {
-        if (isOpen)
-        {
-            animationTrigger = "CloseDoorTrigger";
-            prompt = "Close Door";
-        }
-        else
-        {
-            animationTrigger = "OpenDoorTrigger";
-            prompt = "Open Door";
         }
     }
 
@@ -46,8 +33,17 @@ public class Door : MonoBehaviour, IInteractable
 
         if (inventory is null || !inventory.hasKey) return false;
 
-        isOpen = !isOpen;
-        doorAnimator.SetTrigger(animationTrigger);
+        _isOpen = !_isOpen;
+        if (_isOpen)
+        {
+            animator.SetTrigger(openDoorTrigger);
+            _prompt = "Close Door";
+        }
+        else
+        {
+            animator.SetTrigger(closeDoorTrigger);
+            _prompt = "Open Door";
+        }
         
         return true;
     }
